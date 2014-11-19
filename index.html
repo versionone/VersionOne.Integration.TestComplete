@@ -1,1 +1,437 @@
-My Page
+<!--(c) Copyright 2011, VersionOne, Inc. All rights reserved. (c)-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>VersionOne TestComplete Integration</title>
+	    <link rel="stylesheet" href="styles/site.css" type="text/css" />
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">	    
+    </head>
+
+    <body>
+	    <table class="pagecontent" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+<td style="width:10%"/>
+			    <td valign="top" class="pagebody">
+				    <div class="pageheader">
+					    <span class="pagetitle">
+                            VersionOne TestComplete Integration
+                                                    </span>
+				    </div>
+				    <div class="pagesubheading">
+					    This page last changed on May 25, 2011 by <font color="#0050B2">jerry</font>.
+                                    </div>
+
+				    <style type='text/css'>/*<![CDATA[*/
+div.rbtoc1280693680850 {margin-left: 0px;padding: 0px;}
+div.rbtoc1280693680850 ul {list-style: none;margin-left: 0px;}
+div.rbtoc1280693680850 li {margin-left: 0px;padding-left: 0px;}
+
+/*]]>*/</style><div class='rbtoc1280693680850'>
+<ul>
+    <li><span class='TOCOutline'>1</span> <a href='#VersionOneTestCompleteIntegration-Description'>Description</a></li>
+    <li><span class='TOCOutline'>2</span> <a href='#VersionOneTestCompleteIntegration-SystemRequirements'>System Requirements</a></li>
+    <li><span class='TOCOutline'>3</span> <a href='#VersionOneTestCompleteIntegration-Download'>Download</a></li>
+    <li><span class='TOCOutline'>4</span> <a href='#VersionOneTestCompleteIntegration-Installation'>Installation</a></li>
+    <li><span class='TOCOutline'>5</span> <a href='#VersionOneTestCompleteIntegration-Configuration'>Configuration</a></li>
+<ul>
+    <li><span class='TOCOutline'>5.1</span> <a href='#VersionOneTestCompleteIntegration-ConfigureVersionOne'>Configure VersionOne </a></li>
+    <li><span class='TOCOutline'>5.2</span> <a href='#VersionOneTestCompleteIntegration-ConfiguretheIntegration'>Configure the Integration </a></li>
+</ul>
+    <li><span class='TOCOutline'>6</span> <a href='#VersionOneTestCompleteIntegration-TechnicalDetails'>Technical Details</a></li>
+</ul></div>
+
+<h2><a name="VersionOneTestCompleteIntegration-Description"></a>Description</h2>
+<p>The VersionOne TestComplete Integration (V1TestComplete) imports TestComplete test results into VersionOne, making the latest test results more visible across the organization. The results can be recorded at two different levels of granularity, project and test. The aggregate results for a suite of tests in TestComplete can be linked to a project in VersionOne, so that everyone can see the health of their project from a testing standpoint from within VersionOne. The results of an individual TestComplete acceptance test can be linked to a Test in VersionOne, so that development team members receive quick feedback on which tests are passing and failing.</p>
+
+<p>Once V1TestComplete has been installed, VersionOne users update the reference field for test suites or tests with the path to the corresponding suite or test in TestComplete. A single VersionOne test suite can be assigned to one or more VersionOne projects. The Test Run Trend report shows the aggregated test results for the test suite which was assigned to the project at the time of the test run. For individiual tests, each test in VersionOne should have its own test in TestComplete. V1TestComplete considers a test passing if all of the assertions for that test are passing. If a test fails on a story or defect that is already closed, V1TestComplete can be configured to create a defect in the current iteration, so the team is notified of the failing test. </p>
+
+<p>The following sequence diagram illustrates how V1TestComplete interacts with TestComplete and VersionOne.<br/>
+<span class="image-wrap" style=""><a class="confluence-thumbnail-link 662x520" href='attachments/TestComplete/7209251.png'><img src="attachments/thumbnails/TestComplete/7209251" border="0"/></a></span></p>
+
+<h2><a name="VersionOneTestCompleteIntegration-SystemRequirements"></a>System Requirements</h2>
+<ul>
+	<li>VersionOne: 9.0 or above, including Team Edition</li>
+	<li>Integration Server:
+	<ul>
+		<li>Operating System — Windows 2003, 2008</li>
+		<li>Framework — Microsoft .Net 2.0 SP1</li>
+		<li>AutomatedQA TestComplete Release 6.5.2 - 7.0.409.3</li>
+	</ul>
+	</li>
+</ul>
+
+
+<h2><a name="VersionOneTestCompleteIntegration-Download"></a>Download</h2>
+<p>The latest version of V1TestComplete is available from <a href="http://community.versionone.com/Downloads/default.aspx">the VersionOne Community site </a></p>
+
+<h2><a name="VersionOneTestCompleteIntegration-Installation"></a>Installation </h2>
+<p>These installation instructions assume that TestComplete is already installed, configured, and working properly.</p>
+<ol>
+	<li>Determine Install Location<br/>
+V1TestComplete can be installed on any server with network access to both VersionOne and your TestComplete Test results.  Exact placement should be determined by your internal software management requirements. The integration server must meet the System Requirements stated above.<br class="atl-forced-newline" />
+<br class="atl-forced-newline" /></li>
+	<li>Extract Files<br/>
+Download V1TestComplete using the link above and extract it into a folder of your choice.<br class="atl-forced-newline" />
+<br class="atl-forced-newline" /></li>
+	<li>Configure
+	<ol>
+		<li><a href="#VersionOneTestCompleteIntegration-ConfigureVersionOne">Configure VersionOne</a></li>
+		<li><a href="#VersionOneTestCompleteIntegration-ConfigureServiceHost">Configure The Integration</a><br class="atl-forced-newline" />
+<br class="atl-forced-newline" /></li>
+	</ol>
+	</li>
+	<li>Start integration<br/>
+Open up the command prompt, navigate to your installation folder, and run the following command: 
+<blockquote><p><tt>VersionOne.ServiceHost.exe</tt></p></blockquote>
+<p>If you have configured your system properly, you should see the following output</p>
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<pre class="code-java">
+C:\V1\TestComplete&gt;VersionOne.ServiceHost.exe
+Loaded VersionOne.ServiceHost.Logging.ConsoleLogService, VersionOne.ServiceHost.Core.
+Loaded VersionOne.ServiceHost.Logging.FileLogService, VersionOne.ServiceHost.Core.
+Loaded VersionOne.ServiceHost.Core.Services.TimePublisherService,VersionOne.ServiceHost.Core.
+Loaded VersionOne.ServiceHost.TestServices.TestComplete.TCReaderService, VersionOne.ServiceHost.TestServices.
+Loaded VersionOne.ServiceHost.Core.Services.TimePublisherService, VersionOne.ServiceHost.Core.
+Loaded VersionOne.ServiceHost.TestServices.TestWriterService, VersionOne.ServiceHost.TestServices.
+[Info] Initialized ConsoleLogService
+[Info] Initializing FileLogService
+[Info] Initialized FileLogService
+[Info] Initializing ProfileFlushTimer
+[Info] Initialized ProfileFlushTimer
+[Info] Initializing TCReaderService
+[Info] Initialized TCReaderService
+[Info] Initializing TCReaderServiceTimer
+[Info] Initialized TCReaderServiceTimer
+[Info] Initializing TestWriterService
+[Info] Initialized TestWriterService
+[Startup]
+</pre>
+</div></div>
+<p><br class="atl-forced-newline" /></p></li>
+	<li>Test the integration<br/>
+To test the integration, execute a TestSuite in TestComplete.<br/>
+When V1TestComplete and VersionOne are configured correctly you should see data being published into VersionOne. 
+<div class="code panel" style="border-width: 1px;"><div class="codeContent panelContent">
+<pre class="code-java">
+C:\V1\TestComplete&gt;VersionOne.ServiceHost.exe
+Loaded VersionOne.ServiceHost.Logging.ConsoleLogService, VersionOne.ServiceHost.Core.
+Loaded VersionOne.ServiceHost.Logging.FileLogService, VersionOne.ServiceHost.Core.
+Loaded VersionOne.ServiceHost.Core.Services.TimePublisherService,VersionOne.ServiceHost.Core.
+Loaded VersionOne.ServiceHost.TestServices.TestComplete.TCReaderService, VersionOne.ServiceHost.TestServices.
+Loaded VersionOne.ServiceHost.Core.Services.TimePublisherService, VersionOne.ServiceHost.Core.
+Loaded VersionOne.ServiceHost.TestServices.TestWriterService, VersionOne.ServiceHost.TestServices.
+[Info] Initialized ConsoleLogService
+[Info] Initializing FileLogService
+[Info] Initialized FileLogService
+[Info] Initializing ProfileFlushTimer
+[Info] Initialized ProfileFlushTimer
+[Info] Initializing TCReaderService
+[Info] Initialized TCReaderService
+[Info] Initializing TCReaderServiceTimer
+[Info] Initialized TCReaderServiceTimer
+[Info] Initializing TestWriterService
+[Info] Initialized TestWriterService
+[Startup]
+[Info] Starting Processing File: C:\Program Files\Automated QA\TestComplete 6\Samples\Open Apps\OrdersDemo\C#\TCProject\C#Script\Log\5_19_2009_1_04 PM_45_362\RootLogData.dat
+[Info] Found 2 testRuns and 1 suiteRuns.
+[Info] Publising suiteRun: Orders.Orders_C#_C#Script - TestComplete Test Suite - 5/19/2009 1:04:58 PM - Orders.Orders_C#_C#Script - (1,1,0) 0 ms
+[Info] Suite:
+                TestRun.TestSuite = TestSuite:1743
+                TestRun.Name = Orders.Orders_C#_C#Script
+                TestRun.Description = TestComplete Test Suite
+                TestRun.Date = 5/19/2009 1:04:58 PM
+                TestRun.Passed = 1
+                TestRun.Failed = 1
+                TestRun.NotRun = 0
+                TestRun.Elapsed = 0
+
+[Info] Publising testRun: 5/19/2009 1:04:58 PM - Orders_C#_C#Script.ProjectTestItem2 - Failed - 0.0160008436068892 ms
+[Info] Publising testRun: 5/19/2009 1:04:58 PM - Orders_C#_C#Script.ProjectTestItem1 - Passed - 13.6090025771409 ms
+[Info] Finished Processing File: C:\Program Files\Automated QA\TestComplete 6\Samples\Open Apps\OrdersDemo\C#\TCProject\C#Script\Log\5_19_2009_1_04 PM_45_362\RootLogData.dat
+</pre>
+</div></div></li>
+</ol>
+
+
+<h2><a name="VersionOneTestCompleteIntegration-Configuration"></a>Configuration</h2>
+<h3><a name="VersionOneTestCompleteIntegration-ConfigureVersionOne"></a>Configure VersionOne<a name="VersionOneTestCompleteIntegration-ConfigureVersionOne"></a> </h3>
+<div class='panelMacro'><table class='infoMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/information.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td>If you are using Team Edition, you need to manually create the Test Suite.  Instructions for doing this are available on the <a href="http://community.versionone.com/KnowledgeBase/FAQs/Q11420.aspx">VersionOne Community Site</a>.</td></tr></table></div>
+<ol>
+	<li>Add a TestSuite in VersionOne
+	<ol>
+		<li>A VersionOne TestSuite is created from the Administration | Project | TestSuite menu.<br/>
+<span class="image-wrap" style=""><a class="confluence-thumbnail-link 1014x194" href='attachments/TestComplete/7209235.jpg'><img src="attachments/thumbnails/TestComplete/7209235" border="0"/></a></span></li>
+		<li>The Reference attribute on the VersionOne TestSuite must match a test suite in TestComplete.<br/>
+<span class="image-wrap" style=""><a class="confluence-thumbnail-link 900x318" href='attachments/TestComplete/7209238.jpg'><img src="attachments/thumbnails/TestComplete/7209238" border="0"/></a></span></li>
+	</ol>
+	</li>
+	<li>Assign the VersionOne TestSute to a Project<br/>
+Once the TestSuite is created, it must be assigned to a Project.  To accomplish this, edit the VersionOne Project details. <br/>
+<span class="image-wrap" style=""><a class="confluence-thumbnail-link 900x696" href='attachments/TestComplete/7209236.jpg'><img src="attachments/thumbnails/TestComplete/7209236" border="0"/></a></span></li>
+	<li>Set the Reference Field on Test that are automated using TestComplete<br/>
+Before V1TestComplete can update a test in VersionOne you must associate the VersionOne test with the TestComplete test. To configure this association, you need to edit the VersionOne Test artifact and enter the TestComplete test suite and test name in the Reference field. <br/>
+<span class="image-wrap" style=""><a class="confluence-thumbnail-link 883x579" href='attachments/TestComplete/7209237.jpg'><img src="attachments/thumbnails/TestComplete/7209237" border="0"/></a></span></li>
+</ol>
+
+
+<h3><a name="VersionOneTestCompleteIntegration-ConfiguretheIntegration"></a>Configure the Integration<a name="VersionOneTestCompleteIntegration-ConfigureServiceHost"></a> </h3>
+<p>To configure V1TestComplete you need to run the ServiceHost configuration tool</p>
+<blockquote><p><tt>ServiceHostConfigTool.exe</tt></p></blockquote>
+<p>The following section describes how to configure your TestComplete integration using the use the configuration tool </p>
+<ol>
+	<li>Specify your VersionOne connection details on the <b>General</b><br/>
+<span class="image-wrap" style=""><a class="confluence-thumbnail-link 728x711" href='attachments/TestComplete/7209239.png'><img src="attachments/thumbnails/TestComplete/7209239" border="0"/></a></span><br/>
+The following table describes the fields on this tab
+<div class='table-wrap'>
+<table class='confluenceTable'><tbody>
+<tr>
+<th class='confluenceTh'>Field</th>
+<th class='confluenceTh'>Description</th>
+</tr>
+<tr>
+<td class='confluenceTd'>Server URL</td>
+<td class='confluenceTd'>This is the URL to your VersionOne server</td>
+</tr>
+<tr>
+<td class='confluenceTd'>Username</td>
+<td class='confluenceTd'>VersionOne user that will create defects</td>
+</tr>
+<tr>
+<td class='confluenceTd'>Password</td>
+<td class='confluenceTd'>Password for the specified user</td>
+</tr>
+<tr>
+<td class='confluenceTd'>Use Windows Integrated Authentication</td>
+<td class='confluenceTd'>Check this box if you VersionOne server is configured to use Windows Integrated Authentication</td>
+</tr>
+</tbody></table>
+</div>
+
+<div class='panelMacro'><table class='infoMacro'><colgroup><col width='24'><col></colgroup><tr><td valign='top'><img src="images/icons/emoticons/information.gif" width="16" height="16" align="absmiddle" alt="" border="0"></td><td>When using the integrated authentication, V1TestComplete will authenticate to VersionOne using the Windows domain user under which the executable is running if both the username and password parameters are blank. If the username and password is entered, you must specify the windows domain account in the form "User@FullyQualifiedDomainName". If you are unsure what the fully qualified domain name is, see the Domain name shown on the 'Computer Name' tab in the My Computer...Properties dialog.</td></tr></table></div>
+<p>If there's a proxy between this machine and the VersionOne instance, you'll also need to configure the following settings:</p>
+<div class='table-wrap'>
+<table class='confluenceTable'><tbody>
+<tr>
+<th class='confluenceTh'>Field</th>
+<th class='confluenceTh'>Description</th>
+</tr>
+<tr>
+<td class='confluenceTd'>Use Proxy For Connection</td>
+<td class='confluenceTd'>Determines if the integration tries to connect through a Proxy</td>
+</tr>
+<tr>
+<td class='confluenceTd'>Proxy URL</td>
+<td class='confluenceTd'>This is the URL to your Proxy Server</td>
+</tr>
+<tr>
+<td class='confluenceTd'>Proxy Username</td>
+<td class='confluenceTd'>The username that will get you past this proxy</td>
+</tr>
+<tr>
+<td class='confluenceTd'>Proxy Password</td>
+<td class='confluenceTd'>The password for the Proxy Username</td>
+</tr>
+<tr>
+<td class='confluenceTd'>Proxy Domain</td>
+<td class='confluenceTd'>Name of Proxy Domain</td>
+</tr>
+</tbody></table>
+</div>
+</li>
+	<li>Once the VersionOne parameters are entered, press Verify button to continue.</li>
+	<li>Specify how to update Test in VersionOne on the <b>Tests</b> tab.<br/>
+<span class="image-wrap" style=""><a class="confluence-thumbnail-link 728x711" href='attachments/TestComplete/7209241.png'><img src="attachments/thumbnails/TestComplete/7209241" border="0"/></a></span><br/>
+The following table describes the fields on this tab
+<div class='table-wrap'>
+<table class='confluenceTable'><tbody>
+<tr>
+<th class='confluenceTh'>Field</th>
+<th class='confluenceTh'>Description</th>
+</tr>
+<tr>
+<td class='confluenceTd'>Disabled</td>
+<td class='confluenceTd'>Check this box to disable ChangeSet creation in VersionOne.</td>
+</tr>
+<tr>
+<td class='confluenceTd'>Reference Field Name</td>
+<td class='confluenceTd'>VersionOne Field name to search for TestComplete test identifier.  It's recommended that you use the Reference field; however if you are already using this field for another purpose, you may choose another text field, including custom fields.</td>
+</tr>
+<tr>
+<td class='confluenceTd'>Test Passed Status</td>
+<td class='confluenceTd'>Value to set when a TestComplete test passes</td>
+</tr>
+<tr>
+<td class='confluenceTd'>Test Failed Status</td>
+<td class='confluenceTd'>Value to set when a TestComplete test fails</td>
+</tr>
+<tr>
+<td class='confluenceTd'>Change Comment</td>
+<td class='confluenceTd'>Comment to use when setting values on VersionOne tests</td>
+</tr>
+<tr>
+<td class='confluenceTd'>Description Suffix</td>
+<td class='confluenceTd'>If you are creating Defects, this text will appear in the description field</td>
+</tr>
+<tr>
+<td class='confluenceTd'>Create Defect</td>
+<td class='confluenceTd'>Indicates whether V1TestComplete should create VersionOne Defects when a TestComplete test fails for closed tests in VersionOne. Valid values are:<br class="atl-forced-newline" /> * All: The integration will create a VersionOne Defect for any closed test in the project when the TestComplete test fails <br class="atl-forced-newline" /> * Current Iteration: The integration will only create VersionOne Defects for closed tests within the current iteration when the TestComplete test fails <br class="atl-forced-newline" /> * None: The integration never create VersionOne Defects<br class="atl-forced-newline" /></td>
+</tr>
+</tbody></table>
+</div>
+</li>
+	<li>Specify your TestComplete details on the <b>TestComplete</b> tab.<br/>
+<span class="image-wrap" style=""><a class="confluence-thumbnail-link 728x711" href='attachments/TestComplete/7209240.png'><img src="attachments/thumbnails/TestComplete/7209240" border="0"/></a></span><br/>
+The following table describes the fields on this tab
+<div class='table-wrap'>
+<table class='confluenceTable'><tbody>
+<tr>
+<th class='confluenceTh'>Field</th>
+<th class='confluenceTh'>Description</th>
+</tr>
+<tr>
+<td class='confluenceTd'>Disabled</td>
+<td class='confluenceTd'>Check this box if you want to disable polling TestComplete for Test Results.</td>
+</tr>
+<tr>
+<td class='confluenceTd'>Project Directory</td>
+<td class='confluenceTd'>The directory containing the TestComplete Project you wish to poll.</td>
+</tr>
+<tr>
+<td class='confluenceTd'>Poll Interval</td>
+<td class='confluenceTd'>How frequently to check the Project Directory for test result files.</td>
+</tr>
+<tr>
+<td class='confluenceTd'>Retry Timeout </td>
+<td class='confluenceTd'>How log to wait if the integration encounters an error when attempting to read test result files.  This can occur if TestComplete is writing results when the integration polls to read results.</td>
+</tr>
+<tr>
+<td class='confluenceTd'>Retry Attempts</td>
+<td class='confluenceTd'>Number of times to retry when an error occurs before stopping</td>
+</tr>
+</tbody></table>
+</div>
+</li>
+	<li>Save your changes and exit the program</li>
+</ol>
+
+
+<h2><a name="VersionOneTestCompleteIntegration-TechnicalDetails"></a>Technical Details</h2>
+<h4><a name="VersionOneTestCompleteIntegration-VersionOne.ServiceHost.exe.config"></a>VersionOne.ServiceHost.exe.config</h4>
+<p>VersionOne.ServiceHost.exe.config is the file that controls the behavior of <em>VersionOne.ServiceHost.exe</em>.  Values in this file are set by the configuration tool (<a href="#VersionOneTestCompleteIntegration-ConfigureServiceHost"><em>ServiceHostConfigTool.exe</em></a>).  This section is provided for informational use only.  Users are discouraged from editing this file directly.</p>
+
+<p>The <b>TCReaderService</b> watches for new result files, interprets TestComplete test results, and publishes the results to the TestWriterService. The following table describes the elements nested under TCReaderService.</p>
+<div class='table-wrap'>
+<table class='confluenceTable'><tbody>
+<tr>
+<th class='confluenceTh'>Element Name</th>
+<th class='confluenceTh'>Description</th>
+</tr>
+<tr>
+<td class='confluenceTd'>ProjectSuitConfig</td>
+<td class='confluenceTd'>Fully qualified path to TestComplete project file</td>
+</tr>
+<tr>
+<td class='confluenceTd'>RetryTimeout</td>
+<td class='confluenceTd'>Timeout between attempts to process test results while TestComplete is executing the tests</td>
+</tr>
+<tr>
+<td class='confluenceTd'>RetryAttempts</td>
+<td class='confluenceTd'>Number of times to attempt result process before skipping</td>
+</tr>
+</tbody></table>
+</div>
+
+
+<p>The <b>TestWriterService</b> element controls how Tests are updated in VersionOne. The following table describes the elements nested under TestWriterService. </p>
+<div class='table-wrap'>
+<table class='confluenceTable'><tbody>
+<tr>
+<th class='confluenceTh'>Element Name</th>
+<th class='confluenceTh'>Description</th>
+</tr>
+<tr>
+<td class='confluenceTd'>ApplicationUrl</td>
+<td class='confluenceTd'>The URL for your VersionOne application</td>
+</tr>
+<tr>
+<td class='confluenceTd'>Username</td>
+<td class='confluenceTd'>The VersionOne account username, if using native VersionOne security. If using Windows Integrated Security, leave empty.</td>
+</tr>
+<tr>
+<td class='confluenceTd'>Password</td>
+<td class='confluenceTd'>The VersionOne account password, if using native VersionOne security. If using Windows Integrated Security, leave empty.</td>
+</tr>
+<tr>
+<td class='confluenceTd'>APIVersion</td>
+<td class='confluenceTd'>The minimum application version required for this hosted service.</td>
+</tr>
+<tr>
+<td class='confluenceTd'>IntegratedAuth</td>
+<td class='confluenceTd'>False if using VersionOne native security, True if using Windows Integrated Security. If VersionOne is configured to use Windows Integrated Security, the account the service is running as must be a configured VersionOne user with a project role of Team Member or higher. Also, Username and Password should be empty if IntegratedAuth is true.</td>
+</tr>
+<tr>
+<td class='confluenceTd'>PassedOid</td>
+<td class='confluenceTd'>The TestStatus asset Oid in VersionOne that indicates test a test succeeded</td>
+</tr>
+<tr>
+<td class='confluenceTd'>FailedOid</td>
+<td class='confluenceTd'>The TestStatus asset Oid in VersionOne that indicates that a test failed</td>
+</tr>
+<tr>
+<td class='confluenceTd'>TestReferenceAttribute</td>
+<td class='confluenceTd'>The cross-reference used to associate tests in VersionOne to test in the external test system ('Number' is the default, 'Reference' another option)</td>
+</tr>
+<tr>
+<td class='confluenceTd'>ChangeComment</td>
+<td class='confluenceTd'>The change comment put into history for any modifications the service makes in VersionOne</td>
+</tr>
+<tr>
+<td class='confluenceTd'>DescriptionSuffix</td>
+<td class='confluenceTd'>A suffix for the description of any defects that the service creates; Embedded Rich Text (HTML) is valid in this suffix</td>
+</tr>
+<tr>
+<td class='confluenceTd'>CreateDefect</td>
+<td class='confluenceTd'>Indicates whether the TestWriterService should create VersionOne Defects when a TestComplete test fails for closed tests in VersionOne. Valid values are:<br class="atl-forced-newline" />
+<ul>
+	<li>All: The integration will create a VersionOne Defect for any closed test in the project when the TestComplete test fails</li>
+	<li>CurrentIteration: The integration will only create VersionOne Defects for closed tests within the current iteration when the TestComplete test fails</li>
+	<li>None: The integration never create VersionOne defects<br class="atl-forced-newline" /></li>
+</ul>
+</td>
+</tr>
+<tr>
+</tr>
+</tbody></table>
+</div>
+
+
+<p>The <b>TCReaderServiceTimer</b> element triggers the TCReaderService every N milliseconds. The following table describes the elements nested under TCReaderServiceTimer.</p>
+<div class='table-wrap'>
+<table class='confluenceTable'><tbody>
+<tr>
+<th class='confluenceTh'>Element Name</th>
+<th class='confluenceTh'>Description</th>
+</tr>
+<tr>
+<td class='confluenceTd'>Interval</td>
+<td class='confluenceTd'>Number of milliseconds to wait between polls to the TestComplete Project Directory</td>
+</tr>
+<tr>
+<td class='confluenceTd'>PublishClass</td>
+<td class='confluenceTd'>Do Not Change</td>
+</tr>
+</tbody></table>
+</div>
+
+
+                    			    </td>
+<td style="width:10%"/>
+		    </tr>
+	    </table>
+ 	    <table border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff">
+		    <tr>
+			    <td align="left"><font color="grey">Document generated on May 25, 2011 12:30</font></td>
+		    </tr>
+	    </table> 
+    </body>
+</html>
