@@ -1,0 +1,42 @@
+// VersionOneTestCompletePlugin.idl : IDL source for VersionOne.TestComplete.Plugin
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (VersionOneTestCompletePlugin.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+//[
+//	object,
+//	uuid(0D47D466-5F3A-455A-B57B-FAAF3028B494),
+//	dual,
+//	nonextensible,
+//	helpstring("ISampleRuntimeObject Interface"),
+//	pointer_default(unique)
+//]
+//interface ISampleRuntimeObject : IDispatch{
+//	[propget, id(1), helpstring("property Text")] HRESULT Text([out, retval] BSTR* pVal);
+//	[propput, id(1), helpstring("property Text")] HRESULT Text([in] BSTR newVal);
+//	[id(2), helpstring("method ShowText")] HRESULT ShowText(void);
+//};
+[
+	//uuid(32314D41-F81D-4EB7-9621-01318039BFFB),
+	//version(1.0),
+	//helpstring("MyPlugInProject 1.0 Type Library")
+    uuid(0392495E-E391-4841-8D39-4C2162C66FAF),
+	version(1.0),
+	helpstring("VersionOneTestCompletePlugin 1.0 Type Library")
+]
+library VersionOneTestCompletePluginLib
+{
+	importlib("stdole2.tlb");
+	//[
+	//	uuid(D523BCEB-A6FC-4E61-BEDF-4D83230EC524),
+	//	helpstring("SampleRuntimeObject Class")
+	//]
+	//coclass SampleRuntimeObject
+	//{
+	//	[default] interface ISampleRuntimeObject;
+	//};
+};

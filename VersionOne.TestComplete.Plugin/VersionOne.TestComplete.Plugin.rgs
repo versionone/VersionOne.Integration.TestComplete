@@ -1,0 +1,11 @@
+HKCR
+{
+	NoRemove AppID
+	{
+		'%APPID%' = s 'VersionOneTestCompletePlugin'
+		'VersionOne.TestComplete.Plugin.pls'
+		{
+			val AppID = s '%APPID%'
+		}
+	}
+}

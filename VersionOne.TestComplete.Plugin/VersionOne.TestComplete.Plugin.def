@@ -1,0 +1,6 @@
+; VersionOne.TestComplete.Plugin.def : Declares the module parameters.
+
+LIBRARY   "VersionOne.TestComplete.Plugin.pls"
+
+EXPORTS
+    GetPluginRegistrator = _GetPluginRegistrator@4

@@ -1,0 +1,439 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>VersionOne.EntityStorage</name>
+    </assembly>
+    <members>
+        <member name="F:VersionOne.EntityStorage.ChangePhase.Validate">
+            <summary>
+            During this phase, an index checks whether a proposed value for a key is valid.  If not, it may throw an exception to abort the property assignment.
+            </summary>
+        </member>
+        <member name="F:VersionOne.EntityStorage.ChangePhase.Remove">
+            <summary>
+            During this phase, an index removes the old entry with the old key prior to the property assignment.
+            </summary>
+        </member>
+        <member name="F:VersionOne.EntityStorage.ChangePhase.Commit">
+            <summary>
+            This phase occurs after a property assignment is effective.  An index may update itself accordingly.
+            </summary>
+        </member>
+        <member name="T:VersionOne.EntityStorage.Converters.EnumAlternateAttribute">
+            <summary>
+            Tag Enum values with an alternative name.
+            Case-Insensitive comparisons are used to check this name.
+            Do not tag a value with the name of another value.
+            Results of such actions are unknown.
+            </summary>
+        </member>
+        <member name="T:VersionOne.EntityStorage.EntityAttribute">
+            <summary>
+            Marks an interface as the definition of an Entity type
+            </summary>
+        </member>
+        <member name="T:VersionOne.EntityStorage.EntitySpace">
+            <summary>
+            Provides a storage and retrieval facility for IEntity objects
+            Implements IEntitySpace
+            </summary>
+        </member>
+        <member name="T:VersionOne.EntityStorage.IEntitySpace">
+            <summary>
+            Provides retrieval facility for IEntity objects
+            </summary>
+        </member>
+        <member name="M:VersionOne.EntityStorage.EntitySpace.CheckValidEntityType(System.Type)">
+            <summary>
+            Validates the given type 
+            Throws if type does not implement the IEntity interface
+            Throws if type does not have a constructor that takes a string\
+            </summary>
+            <param name="type">The type to validate</param>
+        </member>
+        <member name="M:VersionOne.EntityStorage.EntitySpace.IsEntityType(System.Type)">
+            <summary>
+            Used to check if a specific Type implements the IEntity interface
+            </summary>
+            <param name="type">Type to check</param>
+            <returns>true if the Type type implements the IEntity interface</returns>
+        </member>
+        <member name="F:VersionOne.EntityStorage.EntitySpace._map">
+            <summary>
+            Dictionary contains IEntity objects keyed by IEntity.ID
+            </summary>
+        </member>
+        <member name="M:VersionOne.EntityStorage.EntitySpace.StoreEntity(VersionOne.EntityStorage.IEntity)">
+            <summary>
+            Stores an IEntity in the _map dictionary for later retrieval
+            </summary>
+            <param name="entity">The entity to store</param>
+        </member>
+        <member name="M:VersionOne.EntityStorage.EntitySpace.GetEntityTypes(VersionOne.EntityStorage.IEntity)">
+            <summary>
+            Returns a list of Entity Types that a given IEntity implements
+            </summary>
+            <param name="entity">entity to scan for implemented types</param>
+            <returns>List of Entity Types that entity implements</returns>
+        </member>
+        <member name="M:VersionOne.EntityStorage.EntitySpace.RemoveEntity(System.String)">
+            <summary>
+            Remove an IEntity from the _map dictionary by id
+            </summary>
+            <param name="id">The id to search for in the dictionary</param>
+        </member>
+        <member name="M:VersionOne.EntityStorage.EntitySpace.RemoveEntities">
+            <summary>
+            Removes all IEntity objects from the _map dictionary
+            </summary>
+        </member>
+        <member name="M:VersionOne.EntityStorage.EntitySpace.RetrieveEntity(System.String)">
+            <summary>
+            Retrieves an IEntity from the _map dictionary by id
+            </summary>
+            <param name="id">The id to search for in the dictionary</param>
+            <returns>return the IEntity from the _map dictionary by id or null if the id is not present</returns>
+        </member>
+        <member name="M:VersionOne.EntityStorage.IEntityWriter.StartEntity(System.String,System.String)">
+            <summary>
+            Begin serializing an entity of entityType with unique id entityId
+            Must have a reciprocal call to EndEntity
+            </summary>
+            <param name="entityType">string representing the type of the entity being serialized</param>
+            <param name="entityId">string uniquely identifing the entity being serialized</param>
+        </member>
+        <member name="M:VersionOne.EntityStorage.IEntityWriter.WriteProperty(System.String,System.String)">
+            <summary>
+            Writes a string representation of a property
+            </summary>
+            <param name="propertyName">Name of the property being serialized</param>
+            <param name="propertyValue">Value of the property being serialized</param>
+        </member>
+        <member name="M:VersionOne.EntityStorage.IEntityWriter.WritePropertyReference(System.String,System.String)">
+            <summary>
+            Writes an entity reference as a property
+            </summary>
+            <param name="propertyName">Name of the property being serialized</param>
+            <param name="entityId">EntityId of the value being serialized</param>
+        </member>
+        <member name="M:VersionOne.EntityStorage.IEntityWriter.StartList(System.String)">
+            <summary>
+            Begin serializing a list of values or references
+            Must have a reciprocal call to EndList
+            </summary>
+            <param name="propertyName">Name of the property being serialized</param>
+        </member>
+        <member name="M:VersionOne.EntityStorage.IEntityWriter.WriteReference(System.String)">
+            <summary>
+            Write an entity reference as a value in a list
+            </summary>
+            <param name="entityId">EntityId of the value being serialized</param>
+        </member>
+        <member name="M:VersionOne.EntityStorage.IEntityWriter.WriteValue(System.String)">
+            <summary>
+            Write a string representation of a primitive value
+            </summary>
+            <param name="value">string to serialize</param>
+        </member>
+        <member name="M:VersionOne.EntityStorage.IEntityWriter.EndList">
+            <summary>
+            End a previously started list of values or references
+            Must have a reciprocal call to StartList
+            </summary>
+        </member>
+        <member name="M:VersionOne.EntityStorage.IEntityWriter.EndEntity">
+            <summary>
+            End a previously started entity
+            Must have a reciprocal call to StartEntity
+            </summary>
+        </member>
+        <member name="M:VersionOne.EntityStorage.EntityInfoProvider.GetPropertyEntityType(System.Reflection.PropertyInfo)">
+            <summary>
+            Used to determine the entityType of a property
+            property may be a Vector type, an Index type, or an IEntity type
+            </summary>
+            <param name="property">The property to examine</param>
+            <returns>
+            If property is a Vector type, returns the type name the Vector encapsulates
+            If property is an Index type, returns the type name the Index encapsulates
+            otherwise returns the type name
+            </returns>
+        </member>
+        <member name="M:VersionOne.EntityStorage.EntityInfoProvider.IsEntityType(System.Type)">
+            <summary>
+            Used to check if a specific Type implements the IEntity interface
+            </summary>
+            <param name="type">Type to check</param>
+            <returns>true if the Type type implements the IEntity interface</returns>
+        </member>
+        <member name="M:VersionOne.EntityStorage.EntityInfoProvider.IsVectorType(System.Type)">
+            <summary>
+            Used to check if a specific Type specializes the Vector generic interface
+            </summary>
+            <param name="type">Type to check</param>
+            <returns>true if the Type type specializes the Vector generic interface</returns>
+        </member>
+        <member name="M:VersionOne.EntityStorage.EntityInfoProvider.IsEntityVectorType(System.Type)">
+            <summary>
+            Used to check if a specific Type specializes the Vector generic interface with an EntityType
+            </summary>
+            <param name="type">Type to check</param>
+            <returns>true if the Type type specializes the Vector generic interface with an EntityType</returns>
+        </member>
+        <member name="M:VersionOne.EntityStorage.EntityInfoProvider.IsIndexType(System.Type)">
+            <summary>
+            Used to check if a specific Type specializes the Index generic interface
+            </summary>
+            <param name="type">Type to check</param>
+            <returns>true if the Type type specializes the Index generic interface</returns>
+        </member>
+        <member name="M:VersionOne.EntityStorage.EntityInfoProvider.VectorPropertyType(System.Type)">
+            <summary>
+            Used to return the the generic Type encapsulated by a Vector
+            </summary>
+            <param name="type">a Type that implements the Vector interface</param>
+            <returns>return T from Vector&lt;T&gt;</returns>
+        </member>
+        <member name="M:VersionOne.EntityStorage.EntityInfoProvider.IndexPropertyType(System.Type)">
+            <summary>
+            Used to return the the generic Type encapsulated by an Index
+            </summary>
+            <param name="type">a Type that implements the Index interface</param>
+            <returns>return T from Index</returns>
+        </member>
+        <member name="M:VersionOne.EntityStorage.EntityInfoProvider.IndexKeyType(System.Type)">
+            <summary>
+            Used to return the the generic Type encapsulated by an Index
+            </summary>
+            <param name="type">a Type that implements the Index interface</param>
+            <returns>return K from Index</returns>
+        </member>
+        <member name="M:VersionOne.EntityStorage.EntityInfoProvider.IndexKeyPropertyName(System.Reflection.PropertyInfo)">
+            <summary>
+            Returns the name of the property this index property is keyed by
+            </summary>
+            <param name="property">The entity property marked with an IndexByAttribute</param>
+            <returns>Returns the name of the property this given property is keyed by or null</returns>
+        </member>
+        <member name="M:VersionOne.EntityStorage.EntityInfoProvider.ReciprocalPropertyName(System.Reflection.PropertyInfo)">
+            <summary>
+            Returns the name of the property this reciprocal is tied to
+            </summary>
+            <param name="property">The entity property marked with a ReciprocalAttribute</param>
+            <returns>returns the name of the property this reciprocal is tied to or null</returns>
+        </member>
+        <member name="M:VersionOne.EntityStorage.EntityInfoProvider.GetShortHandProperty(VersionOne.EntityStorage.IEntity,System.Int32)">
+            <summary>
+            Used to return the n-th short hand property defined on a given entity
+            </summary>
+            <param name="entity">The entity to search for short hand properties on</param>
+            <param name="index">The property index to look up</param>
+            <returns>PropertyInfo for the given property index</returns>
+        </member>
+        <member name="T:VersionOne.EntityStorage.IEntity">
+            <summary>
+            Base interface for all Entity types
+            </summary>
+        </member>
+        <member name="M:VersionOne.EntityStorage.IImplementationMap.GetImplementation(System.String)">
+            <summary>
+            Provides a mapping between a string representing an Entity type and an implementation of that interface
+            </summary>
+            <param name="interfaceName">The name of the Entity type to search for</param>
+            <returns>The System.Type that corresponds to the given interfaceName string</returns>
+        </member>
+        <member name="T:VersionOne.EntityStorage.ImplementationMap">
+            <summary>
+            Maps the name of an Entity Type to the Implementation Type
+            Ex. Skin => SkinImpl
+            </summary>
+        </member>
+        <member name="M:VersionOne.EntityStorage.ImplementationMap.LoadTypeMap(System.Reflection.Assembly,System.String)">
+            <summary>
+            Search all types from assembly that are tagged with ImplementsEntityAttribute
+            Store these in _typemap dictionary for later lookups
+            </summary>
+            <param name="assembly">The Assembly to search for types</param>
+            <param name="ns">The optional namespace to search in</param>
+        </member>
+        <member name="M:VersionOne.EntityStorage.ImplementationMap.GetImplementation(System.String)">
+            <summary>
+            Searches the namespace passed to ImplementationMap constructor for a class that implements the given interfaceName
+            </summary>
+            <param name="interfaceName">The name of the interface to search for in the namespace</param>
+            <returns>The System.Type that corresponds to the given interfaceName string</returns>
+        </member>
+        <member name="T:VersionOne.EntityStorage.ImplementsEntityAttribute">
+            <summary>
+            Marks the implementation class for a particular Entity type
+            </summary>
+        </member>
+        <member name="T:VersionOne.EntityStorage.IndexByAttribute">
+            <summary>
+            Declares the property that becomes the key for an Index
+            </summary>
+        </member>
+        <member name="M:VersionOne.EntityStorage.IParseProcessor.NewEntity(System.String,System.String)">
+            <summary>
+            Used to create a new entity of entityType with a unique id entityID
+            </summary>
+            <param name="entityType">string representing the type of the entity to be created</param>
+            <param name="entityID">string that uniquely identifies this entity. Pass null to auto-generate a unique id</param>
+            <returns>entityRef object that can be passed back to other calls on the IParseProcessor</returns>
+        </member>
+        <member name="M:VersionOne.EntityStorage.IParseProcessor.NewEntity(System.Object,System.String,System.String)">
+            <summary>
+            Used to create a new entity with a unique id entityID using the entityType of entityRef's propertyName
+            </summary>
+            <param name="entityRef">entityRef object returned from an IParseProcessor.NewEntity call</param>
+            <param name="propertyName">string representing the property to determine the entityType of</param>
+            <param name="entityID">string that uniquely identifies this entity. Pass null to auto-generate a unique id</param>
+            <returns>entityRef object that can be passed back to other calls on the IParseProcessor</returns>
+        </member>
+        <member name="M:VersionOne.EntityStorage.IParseProcessor.GetPropertyName(System.Object,System.Int32)">
+            <summary>
+            Used to return the name of the n-th constructor property for then given entityRef entityType.
+            If the index is invalid an exception will be thrown
+            </summary>
+            <param name="entityRef">entityRef object returned from an IParseProcessor.NewEntity call</param>
+            <param name="index">the index of the property to return</param>
+            <returns>the name of the n-th constructor property</returns>
+        </member>
+        <member name="M:VersionOne.EntityStorage.IParseProcessor.SetProperty(System.Object,System.String,System.Object)">
+            <summary>
+            Used to set a property on an entityRef with a given name to a specific value
+            </summary>
+            <param name="entityRef">entityRef object returned from IParseProcessor.NewEntity call</param>
+            <param name="propertyName">string reprsenting the property to assign the propertyValue to</param>
+            <param name="propertyValue">either a string to convert to the correct type or another entityRef object returned by IParseProcessor.NewEntity</param>
+        </member>
+        <member name="M:VersionOne.EntityStorage.IParseProcessor.AddValue(System.Object,System.String,System.Object)">
+            <summary>
+            Used to add multiple values to an list property with a given name on an entityRef
+            </summary>
+            <param name="entityRef">entityRef object returned from IParseProcessor.NewEntity call</param>
+            <param name="propertyName">string representing the property to add the listValue to</param>
+            <param name="listValue">another entityRef object returned by IParseProcessor.NewEntity or a string primitive</param>
+        </member>
+        <member name="M:VersionOne.EntityStorage.IParseProcessor.Close">
+            <summary>
+            Used to indicate to the processor that no further calls can be made to it
+            </summary>
+        </member>
+        <member name="T:VersionOne.EntityStorage.KeyChange`1">
+            <summary>
+            KeyChange fires to notify indexes of changes to key property.
+            This event will fire twice for each assignment, once for each <see cref="T:VersionOne.EntityStorage.ChangePhase"/>.
+            </summary>
+            <typeparam name="KeyType">The type of the property for this event.</typeparam>
+            <param name="sender">The entity whose property is changing.</param>
+            <param name="oldKey">The previous property value.</param>
+            <param name="newKey">The new property value being assigned.</param>
+            <param name="phase">Which phase this firing is for.</param>
+        </member>
+        <member name="M:VersionOne.EntityStorage.BaseProcessor.CheckEntityRef(System.Object,System.String)">
+            <summary>
+            Throws if entityRef is not a valid reference
+            </summary>
+            <param name="entityRef">entityRef to validate</param>
+            <param name="name">name of the property to report on failure</param>
+        </member>
+        <member name="M:VersionOne.EntityStorage.BaseProcessor.CheckValidEntityType(System.Type)">
+            <summary>
+            Validates the given type 
+            Throws if type does not implement the IEntity interface
+            Throws if type does not have a constructor that takes a string
+            </summary>
+            <param name="type">The type to validate</param>
+        </member>
+        <member name="M:VersionOne.EntityStorage.BaseProcessor.GetImplementationType(System.String)">
+            <summary>
+            Asks the IImplementationMap for the implementation type that corresponds to the entityType
+            </summary>
+            <param name="entityType">The name of the entityType interface to search for</param>
+            <returns>The System.Type that corresponds to the given entityType string</returns>
+        </member>
+        <member name="M:VersionOne.EntityStorage.ParseProcessor.VersionOne#EntityStorage#IParseProcessor#NewEntity(System.String,System.String)">
+            <summary>
+            Used to create a new entity of entityType with a unique id entityID
+            </summary>
+            <param name="entityType">string representing the type of the entity to be created</param>
+            <param name="entityID">string that uniquely identifies this entity. Pass null to auto-generate a unique id</param>
+            <returns>entityRef object that can be passed back to other calls on the IParseProcessor</returns>
+        </member>
+        <member name="M:VersionOne.EntityStorage.ParseProcessor.VersionOne#EntityStorage#IParseProcessor#NewEntity(System.Object,System.String,System.String)">
+            <summary>
+            Used to create a new entity with a unique id entityID using the entityType of entityRef's propertyName
+            </summary>
+            <param name="entityRef">entityRef object returned from an IParseProcessor.NewEntity call</param>
+            <param name="propertyName">string representing the property to determine the entityType of</param>
+            <param name="entityID">string that uniquely identifies this entity. Pass null to auto-generate a unique id</param>
+            <returns>entityRef object that can be passed back to other calls on the IParseProcessor</returns>
+        </member>
+        <member name="M:VersionOne.EntityStorage.ParseProcessor.VersionOne#EntityStorage#IParseProcessor#SetProperty(System.Object,System.String,System.Object)">
+            <summary>
+            Used to set a property on an entityRef with a given name to a specific value
+            </summary>
+            <param name="entityRef">entityRef object returned from IParseProcessor.NewEntity call</param>
+            <param name="propertyName">string reprsenting the property to assign the propertyValue to</param>
+            <param name="propertyValue">either a string to convert to the correct type or another entityRef object returned by IParseProcessor.NewEntity</param>
+        </member>
+        <member name="M:VersionOne.EntityStorage.ParseProcessor.VersionOne#EntityStorage#IParseProcessor#AddValue(System.Object,System.String,System.Object)">
+            <summary>
+            Used to add multiple values to an list property with a given name on an entityRef
+            </summary>
+            <param name="entityRef">entityRef object returned from IParseProcessor.NewEntity call</param>
+            <param name="propertyName">string representing the property to add the listValue to</param>
+            <param name="listValue">another entityRef object returned by IParseProcessor.NewEntity or a string primitive</param>
+        </member>
+        <member name="M:VersionOne.EntityStorage.ParseProcessor.VersionOne#EntityStorage#IParseProcessor#GetPropertyName(System.Object,System.Int32)">
+            <summary>
+            Used to return the name of the n-th constructor property for then given entityRef entityType.
+            If the index is invalid an exception will be thrown
+            </summary>
+            <param name="entityRef">entityRef object returned from an IParseProcessor.NewEntity call</param>
+            <param name="index">the index of the property to return</param>
+            <returns>the name of the n-th constructor property</returns>
+        </member>
+        <member name="M:VersionOne.EntityStorage.ParseProcessor.VersionOne#EntityStorage#IParseProcessor#Close">
+            <summary>
+            Used to indicate to the processor that no further calls can be made to it
+            </summary>
+        </member>
+        <member name="M:VersionOne.EntityStorage.ParseProcessor.CheckRetrieveEntity(System.String)">
+            <summary>
+            Retrieves an entity by id and throws if the id is invalid
+            </summary>
+            <param name="id">the id of the entity to retrieve</param>
+            <returns>Retrieves an entity by id and throws if the id is invalid</returns>
+        </member>
+        <member name="M:VersionOne.EntityStorage.SerializeProcessor.Serialize(VersionOne.EntityStorage.IEntitySpace,VersionOne.EntityStorage.IEntityWriter)">
+            <summary>
+            Serialize all entities in entity provider to the given processor
+            </summary>
+            <param name="entitySpace">the entity provider to serialize</param>
+            <param name="entityWriter">the serialize processor to serialize to</param>
+            <exception cref="T:VersionOne.EntityStorage.SerializationFailureException">The Entity Space changed, or one of the entities changed during serialization.</exception>
+        </member>
+        <member name="M:VersionOne.EntityStorage.SerializeProcessor.Serialize(VersionOne.EntityStorage.IEntity,VersionOne.EntityStorage.IEntityWriter)">
+            <summary>
+            Serialize a single entity to serializer
+            </summary>
+            <param name="entity">IEntity to serialize</param>
+            <param name="entityWriter">IEntityWriter to call upon</param>
+        </member>
+        <member name="M:VersionOne.EntityStorage.SerializeProcessor.Serialize(System.Reflection.PropertyInfo,VersionOne.EntityStorage.IEntity,VersionOne.EntityStorage.IEntityWriter)">
+            <summary>
+            Serialize a single Vector, Index, EntityRef or Primitive property to serializer
+            </summary>
+            <param name="property">PropertyInfo to serialize</param>
+            <param name="entity">IEntity to read property from</param>
+            <param name="serializer">ISeralizeProcessor to call upon</param>
+        </member>
+        <member name="T:VersionOne.EntityStorage.ReciprocalAttribute">
+            <summary>
+            Declares the name of the reciprocal relation on a related Entity type
+            </summary>
+        </member>
+    </members>
+</doc>
